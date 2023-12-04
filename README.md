@@ -1,7 +1,7 @@
 # TxtAppender
 Small application for making low-friction notes from the command line.
-At the moment requires a user to create a batch file to help run from the command line.
-Call the batch file and use the filename stem as the only argument
+Suggest renaming the compiled .exe file to "tx.exe" or similar. Add the path the program files are in to your system environment variables paths, or save the program files to a folder which already is in the sytem environ variables paths.
+You can then call the application from the command line with the stem of the txt filename as the only argument.
 e.g. tx foo
 This will open a foo.txt file. The user will see a prompt, each line of input will be appended to the end of the file. 
 To exit the application type "quit" or exit", this will exit the  applicaton and close the text file.
