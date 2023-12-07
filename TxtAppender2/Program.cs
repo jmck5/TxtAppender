@@ -1,5 +1,4 @@
-﻿using System.Configuration;
-
+﻿
 namespace TxtAppender2 {
     internal class Program {
         static void Main(string[] args) {
@@ -17,12 +16,11 @@ namespace TxtAppender2 {
         private readonly string _targetFile;
         private readonly string _targetDirectory;
         public TxtAppender(string[] args) {
+            _targetDirectory = GetPath();
             _targetFile = GetTarget(args);
-            string configValue = ConfigurationManager.AppSettings["UserDirectory"] ?? "";
-            _targetDirectory = configValue.Length > 0 ? configValue : "defaultTxtAppender";
             _stream = GetStream(_targetFile);
             _writer = new StreamWriter(_stream);
-             
+           
         }
 
         public string GetTarget(string[] args) {
@@ -32,6 +30,21 @@ namespace TxtAppender2 {
                 target = args[0];
             }
             return target;
+        }
+
+        public string GetPath() {
+            string defaultPathName = "baseThoughts";
+            try {
+                var currentDir = AppDomain.CurrentDomain.BaseDirectory;
+                StreamReader  fileStream = new StreamReader(File.OpenRead(currentDir+"\\txt.config"));
+                string line = fileStream.ReadLine();
+                if(!String.IsNullOrEmpty(line)) {
+                    defaultPathName = line; 
+                }
+            } catch(Exception e) {                
+                Console.Error.WriteLine("Error loading filepath from txt.config. Writing to C:\\baseThoughts\\ instead");
+            }
+            return defaultPathName;
         }
 
         public FileStream GetStream(string target) {
